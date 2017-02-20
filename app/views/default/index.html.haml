@@ -1,0 +1,161 @@
+/ Navigation
+%nav.navbar.navbar-default.navbar-fixed-top
+  .container
+    / Brand and toggle get grouped for better mobile display
+    .navbar-header.page-scroll
+      %button.navbar-toggle{"data-target" => "#bs-example-navbar-collapse-1", "data-toggle" => "collapse", :type => "button"}
+        %span.sr-only Toggle navigation
+        %span.icon-bar
+        %span.icon-bar
+        %span.icon-bar
+      %a.navbar-brand{:href => "#page-top"} CedAx 
+    / Collect the nav links, forms, and other content for toggling
+    #bs-example-navbar-collapse-1.collapse.navbar-collapse
+      %ul.nav.navbar-nav.navbar-right
+        %li.page-scroll
+          %a{:href => "#page-top"} Inicio
+        %li.page-scroll
+          %a{:href => "#calculadora"} Calculadora
+        %li.page-scroll
+          %a{:href => "#login"} Log In
+        %li.page-scroll
+          %a{:href => "#singup"} Registro
+        %li.page-scroll
+          %a{:href => "#rec"} Recuperar contraseña
+    / /.navbar-collapse
+  / /.container-fluid
+/ Header
+%header
+  .container
+    .row
+      .col-lg-12
+        %img.img-responsive{:alt => "", :src => "img/profile.png"}
+          .intro-text
+            %span.name CedAx
+            %hr.star-light
+              %span.skills Compañía de envios con logística nacional, contamos con sistemas de tecnología altamente efectivos para la gestión de carga, almacenamiento y transporte.
+/ Login Section
+%section#login
+  .container
+    .row
+      .col-lg-12.text-center
+        %h2 Iniciar sesión
+        %hr.star-primary
+    .row
+      .col-lg-8.col-lg-offset-2
+        =form_tag do
+          .form-group
+            %b.subtitulo Email
+            %br
+            = email_field :login, :email , class:"form-control" , :placeholder => "Ingrese su correo electronico", :required => true
+          
+          .form-group
+            %b.subtitulo Clave
+            %br
+            = password_field :login, :password , class:"form-control", :required => true
+
+          %input{type:"button", value:"Iniciar sesión", class: "btn btn-primary btn-lg btn-block", onclick:"login()", id:"btnLogin"} 
+/ SingUp Section
+%section#singup
+  .container
+    .row
+      .col-lg-12.text-center
+        %h2 Registro
+        %hr.star-primary
+    .row
+      .col-lg-8.col-lg-offset-2
+        =form_tag do
+          .form-group
+            %b.subtitulo Nombre
+            %br
+            = text_field :registro,:nombre , class:"form-control", :required => true
+          
+          .form-group
+            %b.subtitulo Apellido
+            %br
+            = text_field :registro, :apellido , class:"form-control", :required => true
+
+          .form-group
+            %b.subtitulo Edad
+            %br
+            = text_field :registro,:edad , class:"form-control", :required => true
+
+          .form-group
+            %b.subtitulo Cedula
+            %br
+            = text_field :registro,:cedula , class:"form-control", :required => true
+          
+          .form-group
+            %b.subtitulo Email
+            %br
+            = email_field :registro,:email , class:"form-control", :required => true
+           
+          .form-group
+            %b.subtitulo Teléfono
+            %br
+            = text_field :registro, :telefono , class:"form-control", :required => true
+
+          .form-group
+            %b.subtitulo Clave
+            %br
+            = password_field :registro, :clave , class:"form-control", :required => true
+
+          %input{type:"button", value:"Registrarse", class: "btn btn-primary btn-lg btn-block", onclick:"registro()", id:"btnRegistro"} 
+/ Login Section
+%section#rec
+  .container
+    .row
+      .col-lg-12.text-center
+        %h2 Recuperar contraseña
+        %hr.star-primary
+    .row
+      .col-lg-8.col-lg-offset-2
+        =form_tag(controller: :default , action: :cambiar_contrasena) do
+          .form-group
+            %b.subtitulo Email
+            %br
+            = email_field :olvido, :email , class:"form-control" , :placeholder => "Ingrese su correo electronico", :required => true
+
+          =submit_tag "Obtener clave" ,class: "btn btn-primary btn-lg btn-block"
+/Calculator section
+%section#calculadora
+  .container
+    .row
+      .col-lg-12.text-center
+        %h2 Calculadora
+        %hr.star-primary
+    .row
+      .col-lg-8.col-lg-offset-2
+        =form_tag do
+          .form-group
+            %b.subtitulo Ancho
+            %br
+            = text_field :miembro, :ancho , class:"form-control" , :placeholder => "Ingrese el ancho de su paquete", :required => true
+          
+          .form-group
+            %b.subtitulo Alto
+            %br
+            = text_field :miembro, :alto , class:"form-control", :required => true, :placeholder => "Ingrese el alto de su paquete"
+
+          .form-group
+            %b.subtitulo Largo
+            %br
+            = text_field :miembro, :largo , class:"form-control", :required => true, :placeholder => "Ingrese el largo de su paquete"
+
+          .form-group
+            %b.subtitulo Peso
+            %br
+            = text_field :miembro, :peso, class:"form-control", :required => true, :placeholder => "Ingrese el peso de su paquete"
+
+          .form-group
+            %b.subtitulo Costo
+            %br
+            = text_field :miembro, :valor, class:"form-control", :required => true, :placeholder => "Ingrese el peso de su paquete"
+
+          %input{type:"button", value:"Calcular", class: "btn btn-primary btn-lg btn-block", onclick:"calcular()"}
+          %br
+          .form-group
+            %b.subtitulo BsF. : 
+            %br
+            = hidden_field :miembro, :result, class:"form-control" 
+

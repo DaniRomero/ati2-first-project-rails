@@ -1,0 +1,188 @@
+/ Navigation
+%nav.navbar.navbar-default.navbar-fixed-top
+  .container
+    / Brand and toggle get grouped for better mobile display
+    .navbar-header.page-scroll
+      %button.navbar-toggle{"data-target" => "#bs-example-navbar-collapse-1", "data-toggle" => "collapse", :type => "button"}
+        %span.sr-only Toggle navigation
+        %span.icon-bar
+        %span.icon-bar
+        %span.icon-bar
+      %a.navbar-brand{:href => "#page-top"} CedAx
+    / Collect the nav links, forms, and other content for toggling
+    #bs-example-navbar-collapse-1.collapse.navbar-collapse
+      %ul.nav.navbar-nav.navbar-right
+        %li.page-scroll
+          %a{:href => "#page-top"} Inicio
+        %li.page-scroll
+          %a{:href => "#operador"} Añadir operador
+        %li.page-scroll
+          %a{:href => "#admin"} Añadir administrador
+        %li.page-scroll
+          %a{:href => "#sucursal"} Añadir Sucursal
+        %li.page-scroll
+          %a{:href => "#tarifa"} Cambiar Tarifa
+        %li.page-scroll
+          %a{:href => "/admin/logout"} Log Out
+        
+    / /.navbar-collapse
+  / /.container-fluid
+/ Header
+%header
+  .container
+    .row
+      .col-lg-12
+        %img.img-responsive{:alt => "", :src => "img/profile.png"}
+          .intro-text
+            %span.name ¡ Bienvenido 
+            %span.name #{@user.first_name} #{@user.last_name} !
+            %hr.star-light
+              %span.skills Compañía de envios con logística nacional, contamos con sistemas de tecnología altamente efectivos para la gestión de carga, almacenamiento y transporte.
+/Calculator section
+%section#operador
+  .container
+    .row
+      .col-lg-12.text-center
+        %h2 Añadir operador
+        %hr.star-primary
+    .row
+      .col-lg-8.col-lg-offset-2
+        =form_tag do
+          .form-group
+            %b.subtitulo Nombre
+            %br
+            = text_field :op, :name , class:"form-control" , :placeholder => "Ingrese el ancho de su paquete", :required => true
+          
+          .form-group
+            %b.subtitulo Apellido
+            %br
+            = text_field :op, :apellido , class:"form-control", :required => true, :placeholder => "Ingrese el alto de su paquete"
+
+          .form-group
+            %b.subtitulo Edad
+            %br
+            = text_field :op, :edad , class:"form-control", :required => true, :placeholder => "Ingrese el largo de su paquete"
+
+          .form-group
+            %b.subtitulo Cedula
+            %br
+            = text_field :op, :cedula , class:"form-control", :required => true, :placeholder => "Ingrese el largo de su paquete"
+
+          .form-group
+            %b.subtitulo Email
+            %br
+            = email_field :op, :email , class:"form-control", :required => true, :placeholder => "Ingrese el largo de su paquete"
+
+          .form-group
+            %b.subtitulo Telefono
+            %br
+            = telephone_field :op, :phone , class:"form-control", :required => true, :placeholder => "Ingrese el largo de su paquete"
+
+          .form-group
+            %b.subtitulo Sucursal
+            %br
+            %select#sucursalop.form-control
+              %option{:value => "suc"}=""
+              - @sucursals.each do |sucursal|
+                %option{:value => "#{sucursal.name}"}="#{sucursal.name}"
+
+          .form-group
+            %b.subtitulo Clave
+            %br
+            = password_field :op, :password , class:"form-control", :required => true, :placeholder => "Ingrese el largo de su paquete"
+
+          %input{type:"button", value:"Agregar operador", class: "btn btn-primary btn-lg btn-block", onclick:"addOp()"}
+/Calculator section
+%section#admin
+  .container
+    .row
+      .col-lg-12.text-center
+        %h2 Añadir administrador
+        %hr.star-primary
+    .row
+      .col-lg-8.col-lg-offset-2
+        =form_tag do
+          .form-group
+            %b.subtitulo Nombre
+            %br
+            = text_field :ad, :name , class:"form-control" , :placeholder => "Ingrese el ancho de su paquete", :required => true
+          
+          .form-group
+            %b.subtitulo Apellido
+            %br
+            = text_field :ad, :apellido , class:"form-control", :required => true, :placeholder => "Ingrese el alto de su paquete"
+
+          .form-group
+            %b.subtitulo Edad
+            %br
+            = text_field :ad, :edad , class:"form-control", :required => true, :placeholder => "Ingrese el largo de su paquete"
+
+          .form-group
+            %b.subtitulo Cedula
+            %br
+            = text_field :ad, :cedula , class:"form-control", :required => true, :placeholder => "Ingrese el largo de su paquete"
+
+          .form-group
+            %b.subtitulo Email
+            %br
+            = email_field :ad, :email , class:"form-control", :required => true, :placeholder => "Ingrese el largo de su paquete"
+
+          .form-group
+            %b.subtitulo Telefono
+            %br
+            = telephone_field :ad, :phone , class:"form-control", :required => true, :placeholder => "Ingrese el largo de su paquete"
+
+          .form-group
+            %b.subtitulo Clave
+            %br
+            = password_field :ad, :password , class:"form-control", :required => true, :placeholder => "Ingrese el largo de su paquete"
+
+          %input{type:"button", value:"Agregar administrador", class: "btn btn-primary btn-lg btn-block", onclick:"addAdmin()"}
+/Calculator section
+%section#sucursal
+  .container
+    .row
+      .col-lg-12.text-center
+        %h2 Añadir sucursal
+        %hr.star-primary
+    .row
+      .col-lg-8.col-lg-offset-2
+        =form_tag do
+          .form-group
+            %b.subtitulo Nombre
+            %br
+            = text_field :sucursal, :name , class:"form-control" , :placeholder => "Ingrese el ancho de su paquete", :required => true
+          
+          .form-group
+            %b.subtitulo Dirección
+            %br
+            = text_field :sucursal, :dir , class:"form-control", :required => true, :placeholder => "Ingrese el alto de su paquete"
+
+          .form-group
+            %b.subtitulo Telefono
+            %br
+            = telephone_field :sucursal, :phone , class:"form-control", :required => true, :placeholder => "Ingrese el largo de su paquete"
+
+          %input{type:"button", value:"Añadir sucursal", class: "btn btn-primary btn-lg btn-block", onclick:"addSucursal()"}
+
+/Calculator section
+%section#tarifa
+  .container
+    .row
+      .col-lg-12.text-center
+        %h2 Cambiar Tarifa
+        %hr.star-primary
+    .row
+      .col-lg-8.col-lg-offset-2
+        =form_tag do
+          .form-group
+            %b.subtitulo Constante
+            %br
+            = text_field :constante , :name, class:"form-control" , :placeholder => "Ingrese el ancho de su paquete", :required => true
+          
+          .form-group
+            %b.subtitulo K
+            %br
+            = text_field :k, :name ,class:"form-control", :required => true, :placeholder => "Ingrese el alto de su paquete"
+
+          %input{type:"button", value:"Cambiar Tarifa", class: "btn btn-primary btn-lg btn-block", onclick:"cambiarTarifa()"}

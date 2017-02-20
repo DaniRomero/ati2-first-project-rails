@@ -1,0 +1,36 @@
+%center
+	%h1 Hola
+
+
+=  form_tag({controller:"default", action: "registro"}, class:"centrar-formulario form-horizontal")  do
+	
+	%center
+		%h1 Crear un usuario
+
+
+	.form-group
+		%b.subtitulo Nombre
+		%br
+		= text_field :name , class:"form-control"
+	
+	.form-group
+		%b.subtitulo Apellido
+		%br
+		= text_field :lastname , class:"form-control"
+  
+	.form-group
+		%b.subtitulo Email
+		%br
+		= email_field :email , class:"form-control"
+   
+	.form-group
+		%b.subtitulo Teléfono
+		%br
+		= text_field :phone , class:"form-control"
+
+	.form-group
+		%b.subtitulo Clave
+		%br
+		= password_field :password , class:"form-control"
+
+	=submit_tag "Crear" ,class: "btn btn-primary btn-lg btn-block" 

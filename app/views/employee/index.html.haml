@@ -1,0 +1,216 @@
+/ Navigation
+%nav.navbar.navbar-default.navbar-fixed-top
+  .container
+    / Brand and toggle get grouped for better mobile display
+    .navbar-header.page-scroll
+      %button.navbar-toggle{"data-target" => "#bs-example-navbar-collapse-1", "data-toggle" => "collapse", :type => "button"}
+        %span.sr-only Toggle navigation
+        %span.icon-bar
+        %span.icon-bar
+        %span.icon-bar
+      %a.navbar-brand{:href => "#page-top"} CedAx 
+    / Collect the nav links, forms, and other content for toggling
+    #bs-example-navbar-collapse-1.collapse.navbar-collapse
+      %ul.nav.navbar-nav.navbar-right
+        %li.page-scroll
+          %a{:href => "#page-top"} Inicio
+        %li.page-scroll
+          %a{:href => "#addPaq"} Nuevo paquete
+        %li.page-scroll
+          %a{:href => "#updPaq"} Modificar estado
+        %li.page-scroll
+          %a{:href => "#trackingE"} Tracking
+        %li.page-scroll
+          %a{:href => "/employee/logout"} Log Out
+    / /.navbar-collapse
+  / /.container-fluid
+/ Header
+%header
+  .container
+    .row
+      .col-lg-12
+        %img.img-responsive{:alt => "", :src => "img/profile.png"}
+          .intro-text
+            %span.name ¡ Hola empleado 
+            %span.name #{@user.first_name} #{@user.last_name} !
+            %hr.star-light
+              %span.skills Compañía de envios con logística nacional, contamos con sistemas de tecnología altamente efectivos para la gestión de carga, almacenamiento y transporte.
+/Calculator section
+%section#addPaq
+  .container
+    .row
+      .col-lg-12.text-center
+        %h2 Añadir paquete
+        %hr.star-primary
+    .row
+      .col-lg-8.col-lg-offset-2
+        =form_tag do
+          .form-group
+            %b.subtitulo Correo de usario emisor
+            %br
+            = email_field :Npaquete, :sender , class:"form-control" , :placeholder => "Ingrese el ancho de su paquete", :required => true
+          
+          .form-group
+            %b.subtitulo Correo de usario receptor
+            %br
+            = email_field :Npaquete, :receiver , class:"form-control" , :placeholder => "Ingrese el ancho de su paquete", :required => true
+
+          .form-group
+            %b.subtitulo Sucursal destino
+            %br
+            %select#sucursales.form-control
+              %option{:value => "suc"}=""
+              - @sucursals.each do |sucursal|
+                %option{:value => "#{sucursal.name}"}="#{sucursal.name}"
+
+
+          .form-group
+            %b.subtitulo Peso
+            %br
+            = text_field :Npaquete, :peso , class:"form-control", :required => true, :placeholder => "Ingrese el alto de su paquete"
+
+          .form-group
+            %b.subtitulo Alto
+            %br
+            = text_field :Npaquete, :alto , class:"form-control", :required => true, :placeholder => "Ingrese el alto de su paquete"
+
+          .form-group
+            %b.subtitulo Ancho
+            %br
+            = text_field :Npaquete, :ancho , class:"form-control", :required => true, :placeholder => "Ingrese el largo de su paquete"
+
+          .form-group
+            %b.subtitulo Largo
+            %br
+            = text_field :Npaquete, :largo, class:"form-control", :required => true, :placeholder => "Ingrese el peso de su paquete"
+
+          .form-group
+            %b.subtitulo Valor
+            %br
+            = text_field :Npaquete, :valor, class:"form-control", :required => true, :placeholder => "Ingrese el valor en BsF de su paquete"
+
+          .form-group
+            %b.subtitulo Descripcion
+            %br
+            = text_field :Npaquete, :description, class:"form-control", :required => true, :placeholder => "Ingrese el peso de su paquete"
+
+          %input{type:"button", value:"Añadir paquete", class: "btn btn-primary btn-lg btn-block", onclick: "nuevoPaquete()"}
+/Tracking section
+%section#trackingE
+  .container
+    .row
+      .col-lg-12.text-center
+        %h2 Tracking
+        %hr.star-primary
+    .row
+      .col-lg-8.col-lg-offset-2
+        %b.subtitulo Busque los paquetes de los usuarios
+        %br
+        = text_field :paquete,:busqueda , class:"form-control", :required => true , :placeholder => "Introduzca alguna caracteristica del paquete"
+        %br
+        %input{type:"button", id:"verTodoPaquete", value:"Ver todos", class: "btn btn-primary btn-lg btn-block"} 
+        %b
+        - if @packageAll.size>0
+          %div.table-responsive
+            %table#tablaPaquetes.hidden.table
+              %thead
+                %tr
+                  %td ID
+                  %td ESTADO
+                  %td DESCRIPCION
+              %tbody
+                - @packageAll.each do |paquete|
+                  %tr
+                    %td #{paquete.id}
+                    %td #{paquete.status}
+                    %td #{paquete.descripcion}
+        - else
+          %b.subtitulo Estamos en quiebra
+                
+/Tracking section
+%section#pendientes
+  .container
+    .row
+      .col-lg-12.text-center
+        %h2 Paquetes pendientes por recibir
+        %hr.star-primary
+    .row
+      .col-lg-8.col-lg-offset-2
+        %br
+        = text_field :paquete,:busquedaRecibir , class:"form-control", :required => true , :placeholder => "Introduzca alguna caracteristica del paquete pendiente"
+        %br
+        %input{type:"button", id:"verTodoPaqueteRecibir", value:"Ver todos", class: "btn btn-primary btn-lg btn-block"} 
+        %br
+        - if @packageRecibir.size>0
+          %div.table-responsive
+            %table#tablaPaquetesRecibir.hidden.table
+              %thead
+                %tr
+                  %td ID
+                  %td ESTADO
+                  %td DESCRIPCION
+              %tbody
+                - @packageRecibir.each do |paquete|
+                  %tr
+                    %td #{paquete[0].id}
+                    %td #{paquete[0].status}
+                    %td #{paquete[0].descripcion}
+        - else
+          %br
+          %b.subtitulo Esta sucursal no tiene paquetes por recibir
+/Tracking section
+%section#pendientes
+  .container
+    .row
+      .col-lg-12.text-center
+        %h2 Paquetes pendientes por enviar
+        %hr.star-primary
+    .row
+      .col-lg-8.col-lg-offset-2
+        %br
+        = text_field :paquete,:busquedaEnviar , class:"form-control", :required => true , :placeholder => "Introduzca alguna caracteristica del paquete pendiente"
+        %br
+        %input{type:"button", id:"verTodoPaqueteEnviar", value:"Ver todos", class: "btn btn-primary btn-lg btn-block"} 
+        %b
+        - if @packageEnviar.size>0
+          %div.table-responsive
+            %table#tablaPaquetesEnviar.hidden.table
+              %thead
+                %tr
+                  %td ID
+                  %td ESTADO
+                  %td DESCRIPCION
+              %tbody
+                - @packageEnviar.each do |paquete|
+                  %tr
+                    %td #{paquete[0].id}
+                    %td #{paquete[0].status}
+                    %td #{paquete[0].descripcion}
+        - else
+          %b.subtitulo Esta sucursal no tiene paquetes pendientes por enviar
+
+/Calculator section
+%section#updPaq
+  .container
+    .row
+      .col-lg-12.text-center
+        %h2 Modificar paquete
+        %hr.star-primary
+    .row
+      .col-lg-8.col-lg-offset-2
+        =form_tag do
+          .form-group
+            %b.subtitulo Identificador de paquete
+            %br
+            = text_field :paquete, :id , class:"form-control" , :placeholder => "Ingrese el identificador de su paquete", :required => true
+            
+          %b.subtitulo Estado del paquete
+          %br
+          %select#status.form-control
+            %option{:value => ""}  
+            %option{:value => "Recibido"} Recibido
+            %option{:value => "En curso"} En curso
+            %option{:value => "Entregado"} Entregado
+          %br
+
+          %input{type:"button", value:"Edita paquete", class: "btn btn-primary btn-lg btn-block", onclick:"editarPaquete()"}  

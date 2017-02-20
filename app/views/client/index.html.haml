@@ -1,0 +1,164 @@
+/ Navigation
+%nav.navbar.navbar-default.navbar-fixed-top
+  .container
+    / Brand and toggle get grouped for better mobile display
+    .navbar-header.page-scroll
+      %button.navbar-toggle{"data-target" => "#bs-example-navbar-collapse-1", "data-toggle" => "collapse", :type => "button"}
+        %span.sr-only Toggle navigation
+        %span.icon-bar
+        %span.icon-bar
+        %span.icon-bar
+      %a.navbar-brand{:href => "#page-top"} CedAx - Entrega Exprés
+    / Collect the nav links, forms, and other content for toggling
+    #bs-example-navbar-collapse-1.collapse.navbar-collapse
+      %ul.nav.navbar-nav.navbar-right
+        %li.page-scroll
+          %a{:href => "#page-top"} Inicio
+        %li.page-scroll
+          %a{:href => "#tracking"} Tracking
+        %li.page-scroll
+          %a{:href => "#profile"} Perfil
+        %li.page-scroll
+          %a{:href => "#calculadora"} Calculadora
+        %li.page-scroll
+          %a{:href => "/client/logout"} Logout
+        
+    / /.navbar-collapse
+  / /.container-fluid
+/ Header
+%header
+  .container
+    .row
+      .col-lg-12
+        %img.img-responsive{:alt => "", :src => "img/profile.png"}
+          .intro-text
+            %span.name ¡ Bienvenido 
+            %span.name #{@user.first_name} #{@user.last_name} !
+            %hr.star-light
+              %span.skills Gracias por elegir la empresa con un transporte mas efectivo para la gestión de carga, almacenamiento y transporte.
+/Profile section
+%section#profile
+  .container
+    .row
+      .col-lg-12.text-center
+        %h2 Perfil
+        %hr.star-primary
+    .row
+      .col-lg-8.col-lg-offset-2
+        %form#modiPerfil
+          .form-group
+            %b.subtitulo Nombre
+            %br
+            = text_field :client,:nombre , class:"form-control", :value => "#{@user.first_name}" , :required => true
+          
+          .form-group
+            %b.subtitulo Apellido
+            %br
+            = text_field :client, :apellido , class:"form-control", :value => "#{@user.last_name}", :required => true
+
+          .form-group
+            %b.subtitulo Edad
+            %br
+            = text_field :client,:edad , class:"form-control", :value => "#{@user.age}", :required => true
+
+          .form-group
+            %b.subtitulo Cedula
+            %br
+            = text_field :client,:cedula , class:"form-control", :value => "#{@user.cedula}", :required => true
+          
+          .form-group
+            %b.subtitulo Email
+            %br
+            = email_field :client,:email , class:"form-control", :value => "#{@user.email}", :required => true
+           
+          .form-group
+            %b.subtitulo Teléfono
+            %br
+            = text_field :client, :telefono , class:"form-control", :value => "#{@user.phone}", :required => true
+
+          .form-group
+            %b.subtitulo Clave
+            %br
+            = password_field :client, :clave , class:"form-control", :required => true
+
+          %input{type:"submit", id:"cambiar_perfil", value:"Modificar perfil", class: "btn btn-primary btn-lg btn-block", onclick:"editar_perfil()", disabled: true}  
+/Tracking section
+%section#tracking
+  .container
+    .row
+      .col-lg-12.text-center
+        %h2 Tracking
+        %hr.star-primary
+    .row
+      .col-lg-8.col-lg-offset-2
+        %b.subtitulo Sepa donde se encuentra su paquete
+        %br
+        = text_field :paquete,:busqueda , class:"form-control", :required => true , :placeholder => "Introduzca alguna caracteristica de su paquete"
+        %br
+        %input{type:"button", id:"verTodoPaquete", value:"Ver todos", class: "btn btn-primary btn-lg btn-block"} 
+        %br
+        - if @package.size>0
+          %div.table-responsive
+            %table#tablaPaquetes.hidden.table
+              %thead
+                %tr
+                  %td ID
+                  %td ESTADO
+                  %td DESCRIPCION
+                  %td EMISOR O RECEPTOR
+                  %td FECHA DE ENVIO
+                  %td COSTO
+                  %td FECHA DE ENTREGA
+              %tbody
+                - @package.each do |paquete|
+                  %tr
+                    %td #{paquete[0].id}
+                    %td #{paquete[0].status}
+                    %td #{paquete[0].descripcion}
+                    %td #{paquete[1]}
+                    %td #{paquete[3]}
+                    %td #{paquete[2]}
+                    %td #{paquete[4]}
+        - else
+          %b.subtitulo Usted no posee paquetes pendientes, envíe uno pronto !!
+/Calculator secion
+%section#calculadora
+  .container
+    .row
+      .col-lg-12.text-center
+        %h2 Calculadora
+        %hr.star-primary
+    .row
+      .col-lg-8.col-lg-offset-2
+        =form_tag(controller: :default , action: :calcular) do
+          .form-group
+            %b.subtitulo Ancho
+            %br
+            = text_field :miembro, :ancho , class:"form-control" , :placeholder => "Ingrese el ancho de su paquete", :required => true
+          
+          .form-group
+            %b.subtitulo Alto
+            %br
+            = text_field :miembro, :alto , class:"form-control", :required => true, :placeholder => "Ingrese el alto de su paquete"
+
+          .form-group
+            %b.subtitulo Largo
+            %br
+            = text_field :miembro, :largo , class:"form-control", :required => true, :placeholder => "Ingrese el largo de su paquete"
+
+          .form-group
+            %b.subtitulo Peso
+            %br
+            = text_field :miembro, :peso, class:"form-control", :required => true, :placeholder => "Ingrese el peso de su paquete"
+
+          .form-group
+            %b.subtitulo Costo
+            %br
+            = text_field :miembro, :valor, class:"form-control", :required => true, :placeholder => "Ingrese el peso de su paquete"
+
+          %input{type:"button", value:"Calcular", class: "btn btn-primary btn-lg btn-block", onclick:"calcular()"}
+          %br
+          .form-group
+            %b.subtitulo BsF. : 
+            %br
+            = hidden_field :miembro, :result, class:"form-control" 
